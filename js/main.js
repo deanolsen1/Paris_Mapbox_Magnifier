@@ -180,6 +180,7 @@ $(document).ready(function() {
                     fillColor: PropColor(feature.properties.SM),
 				    color: PropColor(feature.properties.SM),
                     weight: 4,
+                    clickable: true,
 				    fillOpacity: 0.2
 
                 }).on({
@@ -188,6 +189,7 @@ $(document).ready(function() {
 					// 	this.transition();
 					// 	this.setStyle({})
 					// }
+
 
 					mouseover: function(e) {
 						this.openPopup();
@@ -417,17 +419,17 @@ var zl = document.getElementById('zoomlens');
 
 // Call update or zoom functions when
 // these events occur.
-map.on('mousemove', update);
+map.on('click', update);
 map.on('zoomend', zoom);
 
 function zoom(e) {
-    if (zoommap._loaded) zoommap.setZoom(e.target.getZoom() + 1);
+    if (zoommap._loaded) zoommap.setZoom(e.target.getZoom() );
 }
 
 function update(e) {
-    zl.style.top = ~~e.containerPoint.y - 100 + 'px';
-    zl.style.left = ~~e.containerPoint.x - 100 + 'px';
-    zoommap.setView(e.latlng, map.getZoom() + 1, true);
+    zl.style.top = ~~e.containerPoint.y - 50 + 'px';
+    zl.style.left = ~~e.containerPoint.x - 50 + 'px';
+    zoommap.setView(e.latlng, map.getZoom() + 0, true);
 }
 
 });

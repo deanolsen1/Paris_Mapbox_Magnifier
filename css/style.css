@@ -123,6 +123,7 @@ div.scroll {
 
 #map{
 	height: 1020px;
+	opacity: .5;
 	width: 98%;
 	font-family: arapey;
 	font-style: normal;
@@ -236,6 +237,7 @@ body{
 */
 #zoommap {
   background:#73b5e5;
+  z-index: 15;
   width:200px;
   height:200px;
   overflow:hidden;
@@ -258,7 +260,7 @@ body{
 .overlay {
   position:absolute;
   pointer-events:none;
-  overflow:hidden;
+  overflow:visible;
   width:200px;
   height:200px;
   z-index:1000;
