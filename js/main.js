@@ -3,7 +3,7 @@
 $(document).ready(function() {
 	var markers;
 	// Possible heat map layer var
-	var zl = document.getElementById('leaflet-clickable');
+	var zl = document.getElementById('zoomlens');
     var SMFilter = [];
 	var PageFilter = [];
 	var thisPage = 9; //sets the first page of the counter to page 9
@@ -173,20 +173,19 @@ $(document).ready(function() {
         //opacity of markers, transition time for black circle to appear
 		pointToLayer: function(feature, latlng) {
 
+			/*instead of returning circles (SVG elements),
+			you need to return a div with a unique id attribute
+			that can then be used to create a new L.mapbox.map 
+			(your zoommap)
+			*/
 			return L.circle(latlng, 200,{
                     fillColor: PropColor(feature.properties.SM),
 				    color: PropColor(feature.properties.SM),
                     weight: 4,
-                    clickable: false,
+                    clickable: true,
 				    fillOpacity: 0.2,
 
                 }).on({
-                	//attach, style popups on mouseovers
-					// add: function(g) {
-					// 	this.transition();
-					// 	this.setStyle({})
-					// }
-
 
 					mouseover: function(e) {
 						this.openPopup();
@@ -196,12 +195,11 @@ $(document).ready(function() {
 					mouseout: function(e) {
 						this.closePopup();
 						this.setStyle({color: PropColor(feature.properties.SM) });
-					}
+					},
+					click: update
 				});
 			}
 		}).addTo(map);
-		// map.on(update);
-		// map.on(zoom);
 		updatePropSymbols();
 
 	} // end createPropSymbols()
@@ -411,24 +409,25 @@ $(document).ready(function() {
 	var zoommap = L.mapbox.map('zoommap', 'deanolsen1.l4i434a2', {
     fadeAnimation: false,
     zoomControl: false,
+    clickable: true,
     attributionControl: false
-});
+	});
 
 
-// Call update or zoom functions when
-// these events occur.
-map.on('click', update);
-map.on('zoomend', zoom);
+	// Call update or zoom functions when
+	// these events occur.
+	map.on('click', update);
+	map.on('zoomend', zoom);
 
-function zoom(e) {
-    if (zoommap._loaded) zoommap.setZoom(e.target.getZoom() +1);
-}
+	function zoom(e) {
+	    if (zoommap._loaded) zoommap.setZoom(e.target.getZoom() +1);
+	}
 
-function update(e) {
-    zl.style.top = ~~e.containerPoint.y + 50 + 'px';
-    zl.style.left = ~~e.containerPoint.x + 50 + 'px';
-    zoommap.setView(e.latlng, map.getZoom() + 0, true);
-}
+	function update(e) {
+	    zl.style.top = ~~e.containerPoint.y - 100 + 'px';
+	    zl.style.left = ~~e.containerPoint.x - 100 + 'px';
+	    zoommap.setView(e.latlng, map.getZoom() + 0, true);
+	}
 
 });
 //end code
