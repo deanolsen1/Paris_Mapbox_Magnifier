@@ -196,6 +196,12 @@ $(document).ready(function() {
 						this.closePopup();
 						this.setStyle({color: PropColor(feature.properties.SM) });
 					},
+					click: function(e) {
+						this.closePopup();
+						this.setStyle({color: PropColor(feature.properties.SM) });
+					},
+
+
 					click: update
 				});
 			}
